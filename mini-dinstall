@@ -654,6 +654,10 @@ class IncomingDir(threading.Thread):
             # do we have anything to reprocess?
             for changefilename in self._reprocess_queue.keys():
                 (starttime, nexttime, delay) = self._reprocess_queue[changefilename]
+                if changefilename in fucked:
+                    self._logger.warn("Skipping screwed changefile \"%s\"" % (changefilename,))
+                    continue
+
                 curtime = time.time()
                 try:
                     changefile = ChangeFile()
